@@ -22,7 +22,7 @@ before_deploy:
   - cp build/libs/*.jar before-deploy/ # jar파일 디렉토리에 복사
   - cd before-deploy && zip -r before-deploy * #before-deploy디렉토리 이동 후 모두 압축
   - cd ../ && mkdir -p deploy #상위로 이동 후 deploy디렉토리 생성
-  - mv before-deploy/before-deploy.zip deploy/springboot-webservice #zip파일 deploy디렉토리로 옮기기
+  - mv before-deploy/before-deploy.zip deploy/springboot-webservice.zip #zip파일 deploy디렉토리로 옮기기
 
 # S3에 파일 업로드 혹은 CodeDeploy로 배포 등 외부 서비스와 연동될 행위 선언
 deploy:
