@@ -16,9 +16,13 @@ script: "./gradlew clean build"
 
 # Codedeploy는 jar파일을 인식 못하므로 jar파일과 기타 설정들을 모아 압축한다.
 before_deploy:
-  - zip -r springboot-webservice * #내가 만든 프로젝트 안의 모든 파일들 압축
-  - mkdir -p deploy # deploy 폴더생성
-  - mv springboot-webservice.zip deploy/springboot-webservice.zip # zip파일을 deploy폴더로 이동
+  - mkdir -p before-deploy #zip에 포함시킬 것만 담을 디렉토리 생성
+  - cp scripts/*.sh before-deploy/ #scripts폴더의 deploy.sh 디렉토리에 복사
+  - cp appspec.yml before-deploy/ #appspec.yml 디렉토리에 복사
+  - cp build/libs/*.jar before-deploy/ # jar파일 디렉토리에 복사
+  - cd before-deploy && zip -r before-deploy * #before-deploy디렉토리 이동 후 모두 압축
+  - cd ../ && mkdir -p deploy #상위로 이동 후 deploy디렉토리 생성
+  - mv before-deploy/before-deploy.zip deploy/springboot-webservice #zip파일 deploy디렉토리로 옮기기
 
 # S3에 파일 업로드 혹은 CodeDeploy로 배포 등 외부 서비스와 연동될 행위 선언
 deploy:
